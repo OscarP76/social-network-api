@@ -15,48 +15,48 @@ module.exports = {
     },
     // Get a single thought
     getSingleThought(req, res) {
-      User.findOne({ _id: req.params.userId })
+      Thought.findOne({ _id: req.params.userId })
         .select('-__v')
-        .then(async (user) =>
-          !user
-            ? res.status(404).json({ message: 'No user with that ID' })
-            : res.json(user)
+        .then(async (thought) =>
+          !thought
+            ? res.status(404).json({ message: '' })
+            : res.json(thought)
         )
         .catch((err) => {
           console.log(err);
           return res.status(500).json(err);
         });
     },
-    // create a new user
-    createUser(req, res) {
-      User.create(req.body)
-        .then((user) => res.json(user))
+    // create a new thought
+    createThought(req, res) {
+      Thought.create(req.body)
+        .then((thought) => res.json(thought))
         .catch((err) => res.status(500).json(err));
     },
 
-    updateUser(req, res) {
-        User.updateOne({_id: req.params.userId}, req.body)
-        .then((user) => res.json(user))
+    updateThought(req, res) {
+        Thought.updateOne({_id: req.params.thoughtId}, req.body)
+        .then((thought) => res.json(thought))
         .catch((err) => res.status(500).json(err));
     },
-    // Delete a user and remove them from the course
-    deleteUser(req, res) {
-      User.findOneAndRemove({ _id: req.params.userId })
-        .then((user) =>
-          !user
-            ? res.status(404).json({ message: 'No such user exists' })
-            : User.findOneAndUpdate(
+    // Delete a thought and remove it from the site
+    deleteThought(req, res) {
+      Thought.findOneAndRemove({ _id: req.params.thoughtId })
+        .then((thought) =>
+          !thought
+            ? res.status(404).json({ message: 'No thought exists' })
+            : Thought.findOneAndUpdate(
                 { users: req.params.userId },
                 { $pull: { thoughts: req.params.thoughtId } },
                 { new: true }
               )
         )
-        .then((user) =>
-          !user
+        .then((thought) =>
+          !thought
             ? res.status(404).json({
-                message: 'User deleted, but no courses found',
+                message: 'Thought deleted',
               })
-            : res.json({ message: 'User successfully deleted' })
+            : res.json({ message: 'Thought successfully deleted' })
         )
         .catch((err) => {
           console.log(err);
