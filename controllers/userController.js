@@ -5,6 +5,7 @@ module.exports = {
     // Get all users
     getUsers(req, res) {
       User.find()
+      .populate('friends')
         .then(async (users) => {
           return res.json(users);
         })
@@ -62,5 +63,13 @@ module.exports = {
           console.log(err);
           res.status(500).json(err);
         });
+    },
+    addFriend: async (req, res) => {
+      const user = await User.findOneAndUpdate({_id:req.params.userId}, {$push: {friends: req.params.friendId}})
+      res.json(user)
+    },
+    removeFriend: async (req, res) => {
+      const user = await User.findOneAndUpdate({_id:req.params.userId}, {$pull: {friends: req.params.friendId}})
+      res.json(user)
     },
 }

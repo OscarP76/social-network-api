@@ -1,7 +1,25 @@
+const { isValidObjectId } = require('mongoose')
 const { Thought } = require('../models')
 
 
 module.exports = {
+
+  addReaction(req, res) {
+    console.log('id of thought to add reaction to', req.params)
+    console.log('Actual new reaction to save to DB!', req.body)
+    // use the thought model and do a find one and update!
+    // $push to add to the react array
+
+   //  new ObjectId(req.params.thoughtId)
+  //   Thought.updateOne(
+  //     { _id: req.params }, 
+  //     { $push: { reactions: req.body } },
+  //     
+  // ).then(function(data) {
+
+ // })
+ res.send('we r done')
+  },
     // Get all thoughts
     getThoughts(req, res) {
       Thought.find()
@@ -15,7 +33,7 @@ module.exports = {
     },
     // Get a single thought
     getSingleThought(req, res) {
-      Thought.findOne({ _id: req.params.userId })
+      Thought.findOne({ _id: req.params.thoughtId })
         .select('-__v')
         .then(async (thought) =>
           !thought
