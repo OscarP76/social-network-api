@@ -2,6 +2,19 @@ const { User } = require('../models')
 
 
 module.exports = {
+  addFriend(req, res) {
+    User.findOneAndUpdate({_id: req.params.userId}, {$push: {friends: req.body}})
+    .then(function(friendData){
+      res.json(friendData)
+    })
+  },
+
+  removeFriend(req, res) {
+    User.findOneAndDelete({_id: req.params.userId}, {$pull: {friends: req.params.friendId}})
+    .then(function(friendData){
+      res.json(friendData)
+    })
+  },
     // Get all users
     getUsers(req, res) {
       User.find()

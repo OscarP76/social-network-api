@@ -5,20 +5,17 @@ const { Thought } = require('../models')
 module.exports = {
 
   addReaction(req, res) {
-    console.log('id of thought to add reaction to', req.params)
-    console.log('Actual new reaction to save to DB!', req.body)
-    // use the thought model and do a find one and update!
-    // $push to add to the react array
+    Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$push: { reactions: req.body}})
+      .then(function(thoughtData){
+        res.json(thoughtData)
+      })
+  },
 
-   //  new ObjectId(req.params.thoughtId)
-  //   Thought.updateOne(
-  //     { _id: req.params }, 
-  //     { $push: { reactions: req.body } },
-  //     
-  // ).then(function(data) {
-
- // })
- res.send('we r done')
+  deleteReaction(req, res) {
+    Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$pull: { reactions: {reactionId: req.body.reactionId}}})
+      .then(function(thoughtData){
+        res.json(thoughtData)
+      })
   },
     // Get all thoughts
     getThoughts(req, res) {
