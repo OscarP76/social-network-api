@@ -12,13 +12,10 @@ module.exports = {
   },
 
   deleteReaction(req, res) {
-    console.log('About to delete!!', req.body)
     Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$pull: { reactions: {_id: req.body.reactionId}}})
       .then(function(thoughtData){
-        console.log('Deleted reaction off thought!', thoughtData)
         res.json(thoughtData)
       }).catch((err) => {
-        console.log('ERRR!', err)
         res.json(err)
       })
   },
@@ -29,7 +26,6 @@ module.exports = {
           return res.json(users);
         })
         .catch((err) => {
-          console.log(err);
           return res.status(500).json(err);
         });
     },
@@ -43,7 +39,6 @@ module.exports = {
             : res.json(thought)
         )
         .catch((err) => {
-          console.log(err);
           return res.status(500).json(err);
         });
     },
@@ -79,7 +74,6 @@ module.exports = {
             : res.json({ message: 'Thought successfully deleted' })
         )
         .catch((err) => {
-          console.log(err);
           res.status(500).json(err);
         });
     },
