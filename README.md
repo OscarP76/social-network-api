@@ -35,4 +35,4 @@ Mongoose <br
 
 ## Links
 [Github]()
-[Walkthrough]()
+[Walkthrough](https://youtu.be/lL4_UKD5aCk)
