@@ -3,7 +3,7 @@ const { User } = require('../models')
 
 module.exports = {
   addFriend(req, res) {
-    User.findOneAndUpdate({_id: req.params.userId}, {$push: {friends: req.body}})
+    User.findOneAndUpdate({_id: req.params.userId}, {$push: {friends: req.params.friendId}})
     .then(function(friendData){
       res.json(friendData)
     })

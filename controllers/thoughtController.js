@@ -12,9 +12,14 @@ module.exports = {
   },
 
   deleteReaction(req, res) {
-    Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$pull: { reactions: {reactionId: req.body.reactionId}}})
+    console.log('About to delete!!', req.body)
+    Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$pull: { reactions: {_id: req.body.reactionId}}})
       .then(function(thoughtData){
+        console.log('Deleted reaction off thought!', thoughtData)
         res.json(thoughtData)
+      }).catch((err) => {
+        console.log('ERRR!', err)
+        res.json(err)
       })
   },
     // Get all thoughts
